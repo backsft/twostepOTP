@@ -13,27 +13,26 @@ import com.tsv.implementation.service.DefaultUserService;
 @RequestMapping("/registration")
 public class RegistrationController {
 
-	 private DefaultUserService userService;
+	private DefaultUserService userService;
 
-	    public RegistrationController(DefaultUserService userService) {
-	        super();
-	        this.userService = userService;
-	    }
+	public RegistrationController(DefaultUserService userService) {
+		super();
+		this.userService = userService;
+	}
 
-	    @ModelAttribute("user")
-	    public UserRegisteredDTO userRegistrationDto() {
-	        return new UserRegisteredDTO();
-	    }
+	@ModelAttribute("user")
+	public UserRegisteredDTO userRegistrationDto() {
+		return new UserRegisteredDTO();
+	}
 
-	    @GetMapping
-	    public String showRegistrationForm() {
-	        return "register";
-	    }
+	@GetMapping
+	public String showRegistrationForm() {
+		return "register";
+	}
 
-	    @PostMapping
-	    public String registerUserAccount(@ModelAttribute("user") 
-	              UserRegisteredDTO registrationDto) {
-	        userService.save(registrationDto);
-	        return "redirect:/login";
-	    }
+	@PostMapping
+	public String registerUserAccount(@ModelAttribute("user") UserRegisteredDTO registrationDto) {
+		userService.save(registrationDto);
+		return "redirect:/login";
+	}
 }

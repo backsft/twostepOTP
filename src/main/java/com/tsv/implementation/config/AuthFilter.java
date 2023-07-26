@@ -4,14 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,13 +14,21 @@ import org.springframework.util.AntPathMatcher;
 import com.tsv.implementation.dao.UserRepository;
 import com.tsv.implementation.model.User;
 
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @Component
-public class AuthFilter implements Filter{
-	
+public class AuthFilter implements Filter {
+
 	private static final List<String> EXCLUDED_ENDPOINTS = Arrays.asList("/registration/**", "/login/**");
-	
+
 	private final AntPathMatcher pathMatcher = new AntPathMatcher();
-	
+
 	@Autowired
 	UserRepository userRepo;
 
@@ -52,11 +52,11 @@ public class AuthFilter implements Filter{
 					chain.doFilter(request, response);
 				} else {
 					HttpServletResponse httpResponse = (HttpServletResponse) response;
-	                httpResponse.sendRedirect("/login");
+					httpResponse.sendRedirect("/login");
 				}
-			}else {
+			} else {
 				HttpServletResponse httpResponse = (HttpServletResponse) response;
-                httpResponse.sendRedirect("/login");
+				httpResponse.sendRedirect("/login");
 			}
 		}
 	}

@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.tsv.implementation.dao.UserRepository;
 import com.tsv.implementation.model.User;
 
-
 @Controller
 @RequestMapping("/dashboard")
 public class DashboardController {
 	@Autowired
 	UserRepository userRepo;
+
 	@GetMapping
-    public String displayDashboard(Model model){
+	public String displayDashboard(Model model) {
 		SecurityContext securityContext = SecurityContextHolder.getContext();
 		UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
 		User users = userRepo.findByEmail(user.getUsername());
-		if(users.isActive()) {
-		model.addAttribute("userDetails", users.getName());
-        return "dashboard";
-		}else {
+		if (users.isActive()) {
+			model.addAttribute("userDetails", users.getName());
+			return "dashboard";
+		} else {
 			return "redirect:/login/otpVerification?error";
 		}
-    }
+	}
 
 }

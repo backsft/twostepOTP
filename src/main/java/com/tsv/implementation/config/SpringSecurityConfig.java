@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -20,54 +19,45 @@ import com.tsv.implementation.service.DefaultUserService;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
-	
+
 	@Autowired
-	private  DefaultUserService userDetailsService;
-	
+	private DefaultUserService userDetailsService;
+
 	@Autowired
 	AuthenticationSuccessHandler successHandler;
-	
+
 	@Autowired
 	AuthFilter filter;
-	
-	@Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-	
-	@Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userDetailsService);
-        auth.setPasswordEncoder(passwordEncoder());
-        return auth;
-    }
-	
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-	
-	
-	@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {    
-        http.csrf().disable()
-        .addFilterBefore(filter, BasicAuthenticationFilter.class)
-        .authorizeRequests()
-        .antMatchers("/registration/**","/login/**").permitAll()
-        .and()
-        .formLogin(
-                form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")  
-                        .permitAll().successHandler(successHandler)
-        ).logout(
-                logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .permitAll()
 
-        );
-		 return http.build();
+	@Bean
+	 BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    }
+	@Bean
+	 DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+		auth.setUserDetailsService(userDetailsService);
+		auth.setPasswordEncoder(passwordEncoder());
+		return auth;
+	}
+
+	 AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
+
+	@Bean
+	 SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.csrf().disable().addFilterBefore(filter, BasicAuthenticationFilter.class).authorizeRequests()
+				.requestMatchers("/registration/**", "/login/**").permitAll().and()
+				.formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").permitAll()
+						.successHandler(successHandler))
+				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
+
+				);
+		return http.build();
+
+	}
 
 }

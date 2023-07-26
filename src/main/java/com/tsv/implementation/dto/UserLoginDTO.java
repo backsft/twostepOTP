@@ -1,14 +1,13 @@
 package com.tsv.implementation.dto;
 
 public class UserLoginDTO {
-	
-private String username;
-	
+
+	private String username;
+
 	private String password;
-	
+
 	private int otp;
 
-	
 	public String getUsername() {
 		return username;
 	}
@@ -32,8 +31,10 @@ private String username;
 	public void setOtp(int otp) {
 		this.otp = otp;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "UserLoginDTO [username=" + username + ", password=" + password + ", otp=" + otp + "]";
+	}
 
 }
