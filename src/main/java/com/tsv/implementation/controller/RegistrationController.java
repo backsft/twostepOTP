@@ -32,6 +32,8 @@ public class RegistrationController {
 
 	@PostMapping
 	public String registerUserAccount(@ModelAttribute("user") UserRegisteredDTO registrationDto) {
+		System.out.println("register information"+registrationDto);
+		registrationDto.setRole("normal user");
 		userService.save(registrationDto);
 		return "redirect:/login";
 	}

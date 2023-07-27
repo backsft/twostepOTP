@@ -42,4 +42,13 @@ public class UserRegisteredDTO {
 		this.password = password;
 	}
 
+	@Override
+	public String toString() {
+		return "UserRegisteredDTO [name=" + name + ", email_id=" + email_id + ", password=" + password + ", role="
+				+ role + "]";
+	}
+	
+	
+	
+
 }

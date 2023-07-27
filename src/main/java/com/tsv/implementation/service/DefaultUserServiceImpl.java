@@ -54,6 +54,7 @@ public class DefaultUserServiceImpl implements DefaultUserService {
 		Role role = roleRepo.findByRole("USER");
 
 		User user = new User();
+		user.setActive(true);
 		user.setEmail(userRegisteredDTO.getEmail_id());
 		user.setName(userRegisteredDTO.getName());
 		user.setPassword(passwordEncoder.encode(userRegisteredDTO.getPassword()));
@@ -68,25 +69,22 @@ public class DefaultUserServiceImpl implements DefaultUserService {
 			int randomPIN = (int) (Math.random() * 9000) + 1000;
 			user.setOtp(randomPIN);
 			userRepo.save(user);
-			
-		//	SimpleMailMessage msg = new SimpleMailMessage();
-		//	msg.setFrom("");// input the senders email ID
-		//	msg.setTo(user.getEmail());
 
-		//	msg.setSubject("Welcome To My Channel");
-		//	msg.setText("Hello \n\n" + "Your Login OTP :" + randomPIN + ".Please Verify. \n\n" + "Regards \n" + "ABC");
+			// SimpleMailMessage msg = new SimpleMailMessage();
+			// msg.setFrom("");// input the senders email ID
+			// msg.setTo(user.getEmail());
+			// msg.setSubject("Welcome To My Channel");
+			// msg.setText("Hello \n\n" + "Your Login OTP :" + randomPIN + ".Please Verify.
+			// \n\n" + "Regards \n" + "ABC");
+			// javaMailSender.send(msg);
+			// calling email sneder
 
-			//javaMailSender.send(msg);
-			
-			
-			//calling email sneder
-			
-			
+	/*		
 			GEmailSender gEmailSender = new GEmailSender();
 			String to = user.getEmail();
 			String from = "javaspringboot2023@gmail.com";
 			String subject = "Your OTP code is ";
-			String text = "yout OTP code is "+randomPIN+" don't share this code to anyone";
+			String text = "yout OTP code is " + randomPIN + " don't share this code to anyone";
 			boolean b = gEmailSender.sendEmail(to, from, subject, text);
 			if (b) {
 				System.out.println("Email is sent successfully");
@@ -94,9 +92,9 @@ public class DefaultUserServiceImpl implements DefaultUserService {
 				System.out.println("There is problem in sending email");
 			}
 			
-			
-
+			*/
 			return "success";
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
